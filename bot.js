@@ -10,7 +10,7 @@ const jsonfile = require('jsonfile')
 const prefix = '/';
 const token = 'YOUR_TOKEN_HERE';
 const currencies = ['BTC', 'ETH']; // Here you can change the crypto currencies, the bot will check
-const translatedInto = ['USD', 'EUR']; // Here you can change the currencies, the bot will translate the crypto currencies to
+const translatedInto = ['EUR', 'USD']; // Here you can change the currencies, the bot will translate the crypto currencies into
 // End of settings
 
 
@@ -18,7 +18,7 @@ const translatedInto = ['USD', 'EUR']; // Here you can change the currencies, th
 const requestMap = currencies.map(currency => {
   const requestString = `https://min-api.cryptocompare.com/data/price?fsym=${currency}&tsyms=${translatedInto.join(',')}`;
   return fetch(requestString);
-})
+});
 
 
 client.on('message', msg => {
@@ -32,14 +32,14 @@ client.on('message', msg => {
     }))
 
     resolvedCurrencies.forEach(item => {
-      const exhangeString = Object.keys(item.resp).map(e => item.resp[e] + ' ' + e).join(' or ')
+      const exhangeString = Object.keys(item.resp).map(e => item.resp[e] + ' ' + e).join('** or **')
       let embed = {
       color: 0x2ecc71,
-      description: "***:money_with_wings: Current Crypto Currency Exchange***\n\nEvery data you see below is the exchange rate for **one coin** of eacth currency.",
+      description: ":money_with_wings: __***Current Crypto Currency Exchange***__\n***Note**: Every data you see below is the exchange rate for **one coin** of each currency.*\n ",
       footer: { text: `Last update: ${moment().format('MMMM Do YYYY, h:mm:ss a')}` },
       fields: [
-      { name: "__Bitcoin:__", value: `Current exchange for 1 ${item.from} is ` + exhangeString, inline: true },
-      { name: "__Ethereum:__", value: `Current exchange for 1 ${item.from} is ` + exhangeString, inline: true }
+      { name: ":chart_with_upwards_trend: __Bitcoin:__", value: `Current exchange for ${item.from}\n**` + exhangeString + `**`, inline: false },
+      { name: ":chart_with_downwards_trend: __Ethereum:__", value: `Current exchange for ${item.from}\n**` + exhangeString + `**`, inline: false }
     ],
     }
     msg.channel.send('', {embed})
@@ -52,11 +52,17 @@ client.on('message', msg => {
 });
 
 
+function gameupdate() { // The bot status
+  client.user.setGame("with BTC @" + client.users.size);
+}
+
+
 client.on('ready', function () {
+    gameupdate(); // Sets the bot status
     console.log('|----------------------------------------------------|');
     console.log('|                                                    |');
-    console.log('|   CryptoCurrency(-Bot) Online and ready to use!    |');
-    console.log('|         - Current Verison: 1.0 by 4dams -          |');
+    console.log('|   CryptoCurrency(-Bot) online and ready to use!    |');
+    console.log('|         - Current Verison: 2.2 by 4dams -          |');
     console.log('|                Contact: 4dams#3082                 |');
     console.log('|                                                    |');
     console.log('|----------------------------------------------------|');
