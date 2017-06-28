@@ -4,6 +4,9 @@
 
 The bot also uses Discord's `playing...` feature to display the current exchange of Bitcoin, which will get automatically updated every 5 seconds.
 
+![preview1](https://i.4da.ms/edV2fE.png)
+![preview2](https://i.4da.ms/71L38Q.png)
+
 # How to get this bot running?
 
 First of all, you're gonna need node.js installed. A download for that can be found on [this page](https://nodejs.org/en/).
