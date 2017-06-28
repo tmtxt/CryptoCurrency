@@ -7,10 +7,12 @@ const jsonfile = require('jsonfile')
 
 
 // Bot settings
-const prefix = '/';
-const token = 'MzI5MzMxNDUyMDQwNzA4MDk2.DDUlTA.jXvXBt6-CNIY3CxAyYD4qYGGzKA';
+const prefix = '/'; // The prefix used to control the bot in the chat
+const token = 'YOUR_TOKEN_HERE'; // The token the bot will use to log in
 const currencies = ['BTC', 'ETH', 'XRP', 'LTC', 'DASH', 'ETC', 'XMR', 'MAID', 'STRAT']; // Here you can change the crypto currencies, the bot will check
 const translatedInto = ['EUR', 'USD']; // Here you can change the currencies, the bot will translate the crypto currencies into
+const armed = ["85128690765144064"]; // ID of users that are allowed to use the autoupdate-function
+const aa_delay = '30000'; // The delay that will be used in the auto-update function of the bot
 // End of settings
 
 
@@ -21,7 +23,7 @@ const requestMap = () => currencies.map(currency => {
 });
 
 client.on('message', msg => {
-    if (msg.content.toLowerCase() == prefix + "btc")
+    if (msg.content.toLowerCase() == prefix + "cc")
         Promise.all(requestMap())
         .then(e => Promise.all(e.map(single => single.json())))
         .then(e => {
@@ -41,7 +43,7 @@ client.on('message', msg => {
             const ninthExchange = "**" + resolvedCurrencies[8].resp["EUR"] + " EUR** or **" + resolvedCurrencies[8].resp["USD"] + " USD**"
 
             let embed = {
-                color: 0x2ecc71,
+                color: 0x7289DA,
                 description: ":money_with_wings: __***Current Crypto Currency Exchange***__\n***Note**: Every data you see below is the exchange rate for **one coin** of each currency.*\n ",
                 footer: {
                     text: `Last update: ${moment().format('MMMM Do YYYY, h:mm:ss a')}`
@@ -52,7 +54,7 @@ client.on('message', msg => {
                         inline: false
                     },
                     {
-                        name: ":chart_with_downwards_trend: __Ethereum:__",
+                        name: ":chart_with_upwards_trend: __Ethereum:__",
                         value: `Current exchange for ${resolvedCurrencies[1].from}\n` + secondExchange,
                         inline: false
                     },
@@ -93,6 +95,7 @@ client.on('message', msg => {
                     },
                 ],
             }
+            console.log('Crypto Currency Stats requested.')
             msg.channel.send('', {
                 embed
             })
@@ -105,7 +108,9 @@ client.on('message', msg => {
 
 
 
-function gameupdate() { // The bot status
+// Every time "gameupdate()" is called, the bot will update its status and display the current Bitcoin exchange!
+
+function gameupdate() {
     Promise.all(requestMap())
         .then(e => Promise.all(e.map(single => single.json())))
         .then(e => {
@@ -113,20 +118,45 @@ function gameupdate() { // The bot status
                 from: currencies[index],
                 resp: single
             }))
-            const status = resolvedCurrencies[0].resp["EUR"] + " EUR"
-    client.user.setGame("BTC @ " + status);
-        }
-        )};
+            const status = resolvedCurrencies[0].resp["EUR"] + "€"
+            client.user.setGame("BTC @ " + status);
+        })
+};
+
+
+
+client.on("message", (msg) => {
+    if (msg.content.toLowerCase() == (prefix + "status")) {
+        Promise.all(requestMap())
+            .then(e => Promise.all(e.map(single => single.json())))
+            .then(e => {
+                const resolvedCurrencies = e.map((single, index) => ({
+                    from: currencies[index],
+                    resp: single
+                }))
+                const status = resolvedCurrencies[0].resp["EUR"] + "€"
+
+                msg.channel.send(`Bot up and running! :blush:`);
+                msg.channel.send(`By the way, did you know that one Bitcoin is worth **` + status + `** right now? :fire:`)
+            })
+    }
+});
+
 
 client.on('ready', function() {
     gameupdate(); // Sets the bot status
     console.log('|----------------------------------------------------|');
     console.log('|                                                    |');
     console.log('|   CryptoCurrency(-Bot) online and ready to use!    |');
-    console.log('|         - Current Verison: 2.2 by 4dams -          |');
+    console.log('|         - Current Verison: 2.6 by 4dams -          |');
     console.log('|                Contact: 4dams#3082                 |');
     console.log('|                                                    |');
     console.log('|----------------------------------------------------|');
+    console.log('| Autoupdater requested.                             |');
+    console.log('|----------------------------------------------------|')
+    setInterval(function() { // Starts the auto update of the bot
+        gameupdate();
+    }, aa_delay) // Searches for the delay of the autoupdate in the bot settings
 
 });
 
