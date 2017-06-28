@@ -7,9 +7,11 @@ The bot also uses Discord's `playing...` feature to display the current exchange
 # What does the bot look like, once it's installed?
 
 Here you can see the bot how it'll be displayed in the users-list.
+
 ![preview2](https://i.4da.ms/71L38Q.png)
 
 And here you can see the used `/cc` command!
+
 ![preview1](https://i.4da.ms/edV2fE.png)
 
 
