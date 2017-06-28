@@ -39,4 +39,10 @@ After you completed all of those steps you should be able to start the bot by ru
 
 By default, the bot should display the current exchange rate of a currency of your choice in its "playing..." status. If that's the case, you know that the bot is running! Now, you can type `/cc` (or whatever prefix you chose) to display the current exchange rates for the most common Crypto Currencies!
 
-⚠️ Don't forget to invite the bot to your server! ^_^
+⚠️ Don't forget to invite the bot to your server!
+
+# Feeling generous?
+
+Leave me a tip! ^_^
+
+BTC: `39F1XsP4SFNmL8FrNqf9C4SNexyEzDH9F3`
