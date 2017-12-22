@@ -20,6 +20,24 @@ const requestMap = () =>
   });
 
 client.on('message', msg => {
+  // /cc convert 50 ETH BTC
+  if (msg.content.startsWith(prefix + 'cc convert')) {
+    const parts = msg.content.split(' ');
+    const amount = parseFloat(parts[2]);
+    const source = parts[3];
+    const dest = parts[4];
+
+    const requestString = `https://min-api.cryptocompare.com/data/price?fsym=${source}&tsyms=${dest}`;
+    fetch(requestString).then(res => res.json())
+      .then(res => {
+        const unitPrice = res[dest];
+        const totalPrice = unitPrice * amount;
+        msg.channel.send(`${amount} ${source} ~ ${totalPrice} ${dest}`);
+      }).catch(e => console.log(e));
+
+    return;
+  }
+
   if (msg.content.toLowerCase() == prefix + 'cc')
     Promise.all(requestMap())
       .then(e => Promise.all(e.map(single => single.json())))
@@ -71,7 +89,6 @@ function gameupdate() {
     client.user.setGame('BTC @ ' + status);
   });
 }
-
 client.on('message', msg => {
   if (msg.content.toLowerCase() == prefix + 'status') {
     Promise.all(requestMap()).then(e => Promise.all(e.map(single => single.json()))).then(e => {
