@@ -31,7 +31,7 @@ client.on('message', msg => {
     fetch(requestString).then(res => res.json())
       .then(res => {
         const unitPrice = res[dest];
-        const totalPrice = unitPrice * amount;
+        const totalPrice = parseFloat((unitPrice * amount).toFixed(2)).toLocaleString();
         msg.channel.send(`${amount} ${source} ~ ${totalPrice} ${dest}`);
       }).catch(e => console.log(e));
 
