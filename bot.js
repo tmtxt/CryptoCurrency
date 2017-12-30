@@ -7,7 +7,7 @@ const jsonfile = require('jsonfile');
 // Bot settings
 const prefix = '/'; // The prefix used to control the bot in the chat
 const token = process.env.TOKEN; // The token the bot will use to log in
-const currencies = ['BTC', 'ETH', 'XRP', 'LTC']; // Here you can change the crypto currencies, the bot will check
+const currencies = ['BTC', 'ETH', 'XRP', 'LTC', 'KIN', 'XLM', 'ICX', 'REQ', 'DOGE']; // Here you can change the crypto currencies, the bot will check
 const translatedInto = ['USD']; // Here you can change the currencies, the bot will translate the crypto currencies into
 const armed = ['85128690765144064']; // ID of users that are allowed to use the autoupdate-function
 const aa_delay = '30000'; // The delay that will be used in the auto-update function of the bot
@@ -28,12 +28,14 @@ client.on('message', msg => {
     const dest = parts[4];
 
     const requestString = `https://min-api.cryptocompare.com/data/price?fsym=${source}&tsyms=${dest}`;
-    fetch(requestString).then(res => res.json())
+    fetch(requestString)
+      .then(res => res.json())
       .then(res => {
         const unitPrice = res[dest];
         const totalPrice = parseFloat((unitPrice * amount).toFixed(2)).toLocaleString();
         msg.channel.send(`${amount} ${source} ~ ${totalPrice} ${dest}`);
-      }).catch(e => console.log(e));
+      })
+      .catch(e => console.log(e));
 
     return;
   }
