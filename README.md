@@ -33,10 +33,14 @@ In order to change the user token, do the following:
 
 Replace `"YOUR_TOKEN_HERE"` with the user token of the bot. You can get it by creating a new bot over at the [Discord Dev Dashboard](https://discordapp.com/developers/applications/me)
 
-After you completed all of those steps you should be able to start the bot by running the "run.bat"-file in the downloaded folder. 
+After you completed all of those steps you should be able to start the bot by running the "run.bat"-file in the downloaded folder.
 
 # How do I use the bot?
 
 By default, the bot should display the current exchange rate of a currency of your choice in its "playing..." status. If that's the case, you know that the bot is running! Now, you can type `/cc` (or whatever prefix you chose) to display the current exchange rates for the most common Crypto Currencies!
 
 ⚠️ Don't forget to invite the bot to your server!
+
+# Docker Image
+
+Simply set env `TOKEN` and start the docker container
